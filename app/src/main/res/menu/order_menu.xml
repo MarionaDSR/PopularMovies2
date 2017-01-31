@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <!--<item-->
+        <!--android:id="@+id/action_order_popular"-->
+        <!--android:orderInCategory="1"-->
+        <!--android:title="@string/settings_popular"-->
+        <!--app:showAsAction="ifRoom" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_order_topRated"-->
+        <!--android:orderInCategory="2"-->
+        <!--android:title="@string/settings_topRated"-->
+        <!--app:showAsAction="ifRoom" />-->
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="3"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom" />
+</menu>
