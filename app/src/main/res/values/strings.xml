@@ -20,7 +20,7 @@
     </string-array>
     <string name="settings_order_default" translatable="false">@string/settings_topRated_key</string>
 
-    <string name="imagedb_url_root">http://image.tmdb.org/t/p/w500/</string>
+    <string name="imagedb_url_root">http://image.tmdb.org/t/p/w342/</string>
     <string name="themoviedb_query_root">https://api.themoviedb.org/3%1$s?api_key=%2$s</string>
     <string name="themoviedb_query_popular">/movie/popular</string>
     <string name="themoviedb_query_toprated">/movie/top_rated</string>
