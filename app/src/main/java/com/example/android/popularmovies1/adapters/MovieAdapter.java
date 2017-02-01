@@ -66,7 +66,10 @@ public class MovieAdapter extends BaseAdapter {
         });
 
         Picasso p = Picasso.with(mContext);
-        p.load(pictureUrl).into(imageView);
+        p.load(pictureUrl)
+                .placeholder(R.drawable.ic_image)
+                .error(R.drawable.ic_image_error)
+                .into(imageView);
 
         return imageView;
     }
