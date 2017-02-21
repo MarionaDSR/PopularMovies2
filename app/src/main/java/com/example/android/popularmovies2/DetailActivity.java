@@ -1,11 +1,11 @@
-package com.example.android.popularmovies1;
+package com.example.android.popularmovies2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.popularmovies1.model.Movie;
+import com.example.android.popularmovies2.model.Movie;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {

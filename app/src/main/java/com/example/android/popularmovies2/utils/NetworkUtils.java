@@ -1,4 +1,4 @@
-package com.example.android.popularmovies1.utils;
+package com.example.android.popularmovies2.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

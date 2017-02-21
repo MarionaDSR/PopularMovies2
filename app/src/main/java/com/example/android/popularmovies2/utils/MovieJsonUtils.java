@@ -1,6 +1,6 @@
-package com.example.android.popularmovies1.utils;
+package com.example.android.popularmovies2.utils;
 
-import com.example.android.popularmovies1.model.Movie;
+import com.example.android.popularmovies2.model.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;

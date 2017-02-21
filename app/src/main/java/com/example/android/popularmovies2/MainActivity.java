@@ -1,4 +1,4 @@
-package com.example.android.popularmovies1;
+package com.example.android.popularmovies2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,10 +15,10 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.android.popularmovies1.adapters.MovieAdapter;
-import com.example.android.popularmovies1.model.Movie;
-import com.example.android.popularmovies1.utils.MovieJsonUtils;
-import com.example.android.popularmovies1.utils.NetworkUtils;
+import com.example.android.popularmovies2.adapters.MovieAdapter;
+import com.example.android.popularmovies2.model.Movie;
+import com.example.android.popularmovies2.utils.MovieJsonUtils;
+import com.example.android.popularmovies2.utils.NetworkUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
