@@ -43,4 +43,9 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:padding">30dp</item>
     </style>
+
+    <style name="TrailerTitle">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">10dp</item>
+    </style>
 </resources>
