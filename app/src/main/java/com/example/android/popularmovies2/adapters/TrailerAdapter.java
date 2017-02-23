@@ -61,6 +61,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerA
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
+            Trailer trailer = mTrailers.get(adapterPosition);
+            mClickHandler.onTrailerClick(trailer);
         }
     }
 
