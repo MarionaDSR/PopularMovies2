@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies2.adapters.ReviewAdapter;
 import com.example.android.popularmovies2.adapters.TrailerAdapter;
 import com.example.android.popularmovies2.model.Movie;
 import com.example.android.popularmovies2.model.Review;
@@ -40,7 +41,7 @@ public class DetailActivity extends AppCompatActivity implements
     private TextView mTvError;
 
     private TrailerAdapter mTrailerAdapter;
-//    private ReviewAdapter mReviewAdapter;
+    private ReviewAdapter mReviewAdapter;
 
     private DetailPresenter mPresenter;
 
@@ -80,12 +81,23 @@ public class DetailActivity extends AppCompatActivity implements
             showError(e);
         }
 
-        LinearLayoutManager trailerLLM = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        try {
+            mPresenter.getReviews();
+        } catch (MalformedURLException e) {
+            showError(e);
+        }
+
+        LinearLayoutManager trailerLLM = new LinearLayoutManager(this);
         mRvTrailers.setHasFixedSize(true);
         mRvTrailers.setLayoutManager(trailerLLM);
         mTrailerAdapter = new TrailerAdapter(this);
         mRvTrailers.setAdapter(mTrailerAdapter);
-//        mRvReviews.setAdapter(mReviewAdapter);
+
+        LinearLayoutManager reviewLLM = new LinearLayoutManager(this);
+        mRvReviews.setHasFixedSize(true);
+        mRvReviews.setLayoutManager(reviewLLM);
+        mReviewAdapter = new ReviewAdapter();
+        mRvReviews.setAdapter(mReviewAdapter);
     }
 
     @Override
@@ -102,13 +114,14 @@ public class DetailActivity extends AppCompatActivity implements
     public void setTrailers(List<Trailer> trailers) {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mTrailerAdapter.setTrailers(trailers);
-
         mTrailerAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setReviews(List<Review> reviews) {
-
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mReviewAdapter.setReviews(reviews);
+        mReviewAdapter.notifyDataSetChanged();
     }
 
     @Override

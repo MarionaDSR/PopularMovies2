@@ -48,4 +48,15 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">10dp</item>
     </style>
+
+    <style name="ReviewContent">
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="ReviewAuthor">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:gravity">left</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>

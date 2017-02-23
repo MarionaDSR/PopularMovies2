@@ -2,6 +2,7 @@ package com.example.android.popularmovies2.presenters;
 
 import android.content.res.Resources;
 
+import com.example.android.popularmovies2.interactors.ReviewInteractor;
 import com.example.android.popularmovies2.interactors.TrailerInteractor;
 import com.example.android.popularmovies2.model.Movie;
 import com.example.android.popularmovies2.model.Review;
@@ -14,17 +15,18 @@ import java.util.List;
  * Created by mariona on 21/2/17.
  */
 
-public class DetailPresenter implements TrailerInteractor.Callback {
+public class DetailPresenter implements TrailerInteractor.Callback, ReviewInteractor.Callback {
 
     private DetailView mView;
     private Movie mMovie;
     private TrailerInteractor mTrailerInteractor;
-    // private ReviewInteractor mReviewInteractor;
+    private ReviewInteractor mReviewInteractor;
 
     public DetailPresenter(DetailView view, Movie movie) {
         mView = view;
         mMovie = movie;
         mTrailerInteractor = new TrailerInteractor(this);
+        mReviewInteractor = new ReviewInteractor(this);
     }
 
     public void getTrailers() throws MalformedURLException {
@@ -34,6 +36,15 @@ public class DetailPresenter implements TrailerInteractor.Callback {
     @Override
     public void setTrailers(List<Trailer> trailers) {
         mView.setTrailers(trailers);
+    }
+
+    public void getReviews() throws MalformedURLException {
+        mReviewInteractor.loadReviews(mMovie);
+    }
+
+    @Override
+    public void setReviews(List<Review> reviews) {
+        mView.setReviews(reviews);
     }
 
     @Override
