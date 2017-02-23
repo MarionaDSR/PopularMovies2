@@ -17,8 +17,9 @@ public class Movie implements Parcelable {
     private String overview;
     private String releaseDate;
     private double voteAverage;
-    private List<Trailer> trailers = new ArrayList<>();
-    private List<Review> reviews = new ArrayList<>();
+//    private List<Trailer> trailers = new ArrayList<>();
+//    private List<Review> reviews = new ArrayList<>();
+    private boolean favorite;
 
     public Movie() {
 
@@ -72,21 +73,30 @@ public class Movie implements Parcelable {
         this.voteAverage = voteAverage;
     }
 
-    public Trailer getTrailer(int pos) {
-        return trailers.get(pos);
+//    public Trailer getTrailer(int pos) {
+//        return trailers.get(pos);
+//    }
+//
+//    public void addTrailer(Trailer trailer) {
+//        trailers.add(trailer);
+//    }
+//
+//    public Review getReview(int pos) {
+//        return reviews.get(pos);
+//    }
+//
+//    public void addReview(Review review) {
+//        reviews.add(review);
+//    }
+
+    public boolean isFavorite() {
+        return favorite;
     }
 
-    public void addTrailer(Trailer trailer) {
-        trailers.add(trailer);
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
-    public Review getReview(int pos) {
-        return reviews.get(pos);
-    }
-
-    public void addReview(Review review) {
-        reviews.add(review);
-    }
 
     // // // PARCELABLE // // //
 
@@ -103,8 +113,8 @@ public class Movie implements Parcelable {
         out.writeString(overview);
         out.writeString(releaseDate);
         out.writeDouble(voteAverage);
-        out.writeTypedList(trailers);
-        out.writeTypedList(reviews);
+//        out.writeTypedList(trailers);
+//        out.writeTypedList(reviews);
     }
 
     public static final Parcelable.Creator<Movie> CREATOR
@@ -125,8 +135,8 @@ public class Movie implements Parcelable {
         overview = in.readString();
         releaseDate = in.readString();
         voteAverage = in.readDouble();
-        in.readTypedList(trailers, Trailer.CREATOR);
-        in.readTypedList(reviews, Review.CREATOR);
+//        in.readTypedList(trailers, Trailer.CREATOR);
+//        in.readTypedList(reviews, Review.CREATOR);
     }
 
 }

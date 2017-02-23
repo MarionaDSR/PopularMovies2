@@ -29,8 +29,11 @@ public class DetailActivity extends AppCompatActivity implements
 
     private static final String TAG = "DetailActivity";
 
+    private Movie mMovie;
+
     private TextView mTvTitle;
     private TextView mTvRating;
+    private ImageView mIvFavorite;
     private TextView mTvDate;
     private TextView mTvOverview;
     private ImageView mIvPoster;
@@ -52,6 +55,7 @@ public class DetailActivity extends AppCompatActivity implements
 
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mTvRating = (TextView) findViewById(R.id.tv_rating);
+        mIvFavorite = (ImageView) findViewById(R.id.iv_favorite);
         mTvDate = (TextView) findViewById(R.id.tv_date);
         mTvOverview = (TextView) findViewById(R.id.tv_overview);
         mIvPoster = (ImageView) findViewById(R.id.iv_poster);
@@ -61,20 +65,20 @@ public class DetailActivity extends AppCompatActivity implements
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mTvError = (TextView) findViewById(R.id.tv_error);
 
-        Movie movie = getIntent().getParcelableExtra("movie");
-        mTvTitle.setText(movie.getOriginalTitle());
-        mTvRating.setText(Double.toString(movie.getVoteAverage()));
-        mTvDate.setText(movie.getReleaseDate());
-        mTvOverview.setText(movie.getOverview());
+        mMovie = getIntent().getParcelableExtra("movie");
+        mTvTitle.setText(mMovie.getOriginalTitle());
+        mTvRating.setText(Double.toString(mMovie.getVoteAverage()));
+        mTvDate.setText(mMovie.getReleaseDate());
+        mTvOverview.setText(mMovie.getOverview());
 
         String pictureUrl = getResources().getString(R.string.imagedb_url_root)
-                + movie.getPosterPath();
+                + mMovie.getPosterPath();
         Picasso.with(this)
                 .load(pictureUrl)
                 .fit()
                 .into(mIvPoster);
 
-        mPresenter = new DetailPresenter(this, movie);
+        mPresenter = new DetailPresenter(this, mMovie);
         try {
             mPresenter.getTrailers();
         } catch (MalformedURLException e) {
@@ -136,4 +140,12 @@ public class DetailActivity extends AppCompatActivity implements
         Log.e(TAG, errorMsg, error);
     }
 
+    public void setFavorite(View v) {
+        mMovie.setFavorite(!mMovie.isFavorite());
+        if (mMovie.isFavorite()) {
+            mIvFavorite.setImageResource(R.drawable.ic_favorite_true);
+        } else {
+            mIvFavorite.setImageResource(R.drawable.ic_favorite_false);
+        }
+    }
 }
