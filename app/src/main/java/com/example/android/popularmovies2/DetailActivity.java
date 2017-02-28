@@ -1,9 +1,11 @@
 package com.example.android.popularmovies2;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,9 +13,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.popularmovies2.adapters.ReviewAdapter;
 import com.example.android.popularmovies2.adapters.TrailerAdapter;
+import com.example.android.popularmovies2.data.FavoriteDbHelper;
 import com.example.android.popularmovies2.model.Movie;
 import com.example.android.popularmovies2.model.Review;
 import com.example.android.popularmovies2.model.Trailer;
@@ -22,6 +26,8 @@ import com.squareup.picasso.Picasso;
 
 import java.net.MalformedURLException;
 import java.util.List;
+
+import static com.example.android.popularmovies2.data.FavoriteContract.FavoriteEntry;
 
 public class DetailActivity extends AppCompatActivity implements
         TrailerAdapter.TrailerAdapterOnClickHandler,
@@ -47,6 +53,8 @@ public class DetailActivity extends AppCompatActivity implements
     private ReviewAdapter mReviewAdapter;
 
     private DetailPresenter mPresenter;
+
+    private SQLiteDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,9 @@ public class DetailActivity extends AppCompatActivity implements
         mRvReviews.setLayoutManager(reviewLLM);
         mReviewAdapter = new ReviewAdapter();
         mRvReviews.setAdapter(mReviewAdapter);
+
+        FavoriteDbHelper dbHelper = new FavoriteDbHelper(this);
+        mDb = dbHelper.getWritableDatabase();
     }
 
     @Override
@@ -144,8 +155,15 @@ public class DetailActivity extends AppCompatActivity implements
         mMovie.setFavorite(!mMovie.isFavorite());
         if (mMovie.isFavorite()) {
             mIvFavorite.setImageResource(R.drawable.ic_favorite_true);
+            ContentValues cv = new ContentValues();
+            cv.put(FavoriteEntry._ID, mMovie.getId());
+            cv.put(FavoriteEntry.COLUMN_TITLE, mMovie.getOriginalTitle());
+            mDb.insert(FavoriteEntry.TABLE_NAME, null, cv);
+            Toast.makeText(this, "Saved favorite for " + mMovie.getOriginalTitle(), Toast.LENGTH_LONG).show();
         } else {
             mIvFavorite.setImageResource(R.drawable.ic_favorite_false);
+            mDb.delete(FavoriteEntry.TABLE_NAME, String.format(FavoriteEntry.SQL_DELETE_ROW, mMovie.getId()), null);
+            Toast.makeText(this, "Unsaved favorite for " + mMovie.getOriginalTitle(), Toast.LENGTH_LONG).show();
         }
     }
 }
