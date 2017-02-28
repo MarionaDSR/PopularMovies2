@@ -3,9 +3,6 @@ package com.example.android.popularmovies2.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by mariona on 26/1/17.
  */
@@ -22,7 +19,7 @@ public class Movie implements Parcelable {
     private boolean favorite;
 
     public Movie() {
-
+        favorite = false;
     }
 
     public int getId() {
@@ -113,6 +110,7 @@ public class Movie implements Parcelable {
         out.writeString(overview);
         out.writeString(releaseDate);
         out.writeDouble(voteAverage);
+        out.writeByte((byte) (favorite ? 1 : 0));
 //        out.writeTypedList(trailers);
 //        out.writeTypedList(reviews);
     }
@@ -135,6 +133,7 @@ public class Movie implements Parcelable {
         overview = in.readString();
         releaseDate = in.readString();
         voteAverage = in.readDouble();
+        favorite = (in.readByte() != 0);
 //        in.readTypedList(trailers, Trailer.CREATOR);
 //        in.readTypedList(reviews, Review.CREATOR);
     }

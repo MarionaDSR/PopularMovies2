@@ -61,6 +61,9 @@ public class DetailActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        FavoriteDbHelper dbHelper = new FavoriteDbHelper(this);
+        mDb = dbHelper.getWritableDatabase();
+
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mTvRating = (TextView) findViewById(R.id.tv_rating);
         mIvFavorite = (ImageView) findViewById(R.id.iv_favorite);
@@ -74,10 +77,14 @@ public class DetailActivity extends AppCompatActivity implements
         mTvError = (TextView) findViewById(R.id.tv_error);
 
         mMovie = getIntent().getParcelableExtra("movie");
+        if (!mMovie.isFavorite()) {
+            mMovie.setFavorite(dbHelper.checkFavorite(mMovie));
+        }
         mTvTitle.setText(mMovie.getOriginalTitle());
         mTvRating.setText(Double.toString(mMovie.getVoteAverage()));
         mTvDate.setText(mMovie.getReleaseDate());
         mTvOverview.setText(mMovie.getOverview());
+        mIvFavorite.setImageResource(mMovie.isFavorite()?R.drawable.ic_favorite_true:R.drawable.ic_favorite_false);
 
         String pictureUrl = getResources().getString(R.string.imagedb_url_root)
                 + mMovie.getPosterPath();
@@ -110,9 +117,6 @@ public class DetailActivity extends AppCompatActivity implements
         mRvReviews.setLayoutManager(reviewLLM);
         mReviewAdapter = new ReviewAdapter();
         mRvReviews.setAdapter(mReviewAdapter);
-
-        FavoriteDbHelper dbHelper = new FavoriteDbHelper(this);
-        mDb = dbHelper.getWritableDatabase();
     }
 
     @Override
@@ -158,11 +162,16 @@ public class DetailActivity extends AppCompatActivity implements
             ContentValues cv = new ContentValues();
             cv.put(FavoriteEntry._ID, mMovie.getId());
             cv.put(FavoriteEntry.COLUMN_TITLE, mMovie.getOriginalTitle());
+            cv.put(FavoriteEntry.COLUMN_POSTER, mMovie.getPosterPath());
+            cv.put(FavoriteEntry.COLUMN_SYNOPSYS, mMovie.getOverview());
+            cv.put(FavoriteEntry.COLUMN_USER_RATING, mMovie.getVoteAverage());
+            cv.put(FavoriteEntry.COLUMN_RELEASE_DATE, mMovie.getReleaseDate());
+
             mDb.insert(FavoriteEntry.TABLE_NAME, null, cv);
             Toast.makeText(this, "Saved favorite for " + mMovie.getOriginalTitle(), Toast.LENGTH_LONG).show();
         } else {
             mIvFavorite.setImageResource(R.drawable.ic_favorite_false);
-            mDb.delete(FavoriteEntry.TABLE_NAME, String.format(FavoriteEntry.SQL_DELETE_ROW, mMovie.getId()), null);
+            mDb.delete(FavoriteEntry.TABLE_NAME, String.format(FavoriteEntry.SQL_BY_ID, mMovie.getId()), null);
             Toast.makeText(this, "Unsaved favorite for " + mMovie.getOriginalTitle(), Toast.LENGTH_LONG).show();
         }
     }

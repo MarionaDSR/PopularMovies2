@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by mariona on 26/1/17.
  */
@@ -20,10 +23,10 @@ public class MovieJsonUtils {
     private static final String LBL_RELEASE_DATE = "release_date";
     private static final String LBL_VOTE_AVERAGE = "vote_average";
 
-    public static Movie[] getMovies(JSONObject jsonData) throws JSONException{
+    public static List<Movie> getMovies(JSONObject jsonData) throws JSONException{
         JSONArray moviesJsonArray = jsonData.getJSONArray(LBL_RESULTS);
         int length = moviesJsonArray.length();
-        Movie[] movies = new Movie[length];
+        List<Movie> movies = new ArrayList<Movie>();
         for (int i = 0; i < length; i ++) {
             JSONObject jsonMovie = moviesJsonArray.getJSONObject(i);
             Movie m = new Movie();
@@ -34,7 +37,7 @@ public class MovieJsonUtils {
             String releaseDate = jsonMovie.getString(LBL_RELEASE_DATE);
             m.setReleaseDate(releaseDate);
             m.setVoteAverage(jsonMovie.getDouble(LBL_VOTE_AVERAGE));
-            movies[i] = m;
+            movies.add(m);
         }
         return movies;
     }

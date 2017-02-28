@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies2.adapters.MovieAdapter;
+import com.example.android.popularmovies2.data.FavoriteDbHelper;
 import com.example.android.popularmovies2.model.Movie;
 import com.example.android.popularmovies2.utils.MovieJsonUtils;
 import com.example.android.popularmovies2.utils.NetworkUtils;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar mLoadingIndicator;
     private TextView mTvError;
+
+    private FavoriteDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mTvError = (TextView) findViewById(R.id.tv_error);
 
+        dbHelper = new FavoriteDbHelper(this);
+
         try {
             getMoviesList(mOrderOption);
         } catch (Exception e) {
@@ -62,20 +68,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMoviesList(String order) {
-        String sQuery;
-        Resources resources = getResources();
-        if (order.equals(getResources().getString(R.string.settings_popular_key))) { // POPULAR
-            sQuery = resources.getString(R.string.themoviedb_query_popular);
-        } else { // if (order.equals(getResources().getString(R.string.settings_topRated_key))) { // TOP_RATED
-            sQuery = resources.getString(R.string.themoviedb_query_toprated);
-        }
-        String popularMoviesQuery =  String.format(resources.getString(R.string.themoviedb_query_root),
-                sQuery, resources.getString(R.string.themoviedb_key));
-        try {
-            URL searchUrl = new URL(popularMoviesQuery);
-            new QueryTask().execute(searchUrl);
-        } catch (MalformedURLException e) {
-            showError(e);
+        if (order.equals(getResources().getString(R.string.settings_favorites_key))) {
+            mMovieAdapter.setMoviesData(dbHelper.getFavoriteMovies());
+        } else {
+            String sQuery;
+            Resources resources = getResources();
+            if (order.equals(getResources().getString(R.string.settings_popular_key))) { // POPULAR
+                sQuery = resources.getString(R.string.themoviedb_query_popular);
+            } else { //if (order.equals(getResources().getString(R.string.settings_topRated_key))) { // TOP_RATED
+                sQuery = resources.getString(R.string.themoviedb_query_toprated);
+            }
+            String popularMoviesQuery = String.format(resources.getString(R.string.themoviedb_query_root),
+                    sQuery, resources.getString(R.string.themoviedb_key));
+            try {
+                URL searchUrl = new URL(popularMoviesQuery);
+                new QueryTask().execute(searchUrl);
+            } catch (MalformedURLException e) {
+                showError(e);
+            }
         }
     }
 
@@ -109,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
             try {
                 JSONObject jsonRootData = new JSONObject(s);
-                Movie[] movies = MovieJsonUtils.getMovies(jsonRootData);
+                List<Movie> movies = MovieJsonUtils.getMovies(jsonRootData);
                 mMovieAdapter.setMoviesData(movies);
             } catch (JSONException e) {
                 showError(e);

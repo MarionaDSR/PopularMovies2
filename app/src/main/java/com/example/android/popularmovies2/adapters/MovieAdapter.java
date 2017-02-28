@@ -12,6 +12,8 @@ import com.example.android.popularmovies2.R;
 import com.example.android.popularmovies2.model.Movie;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 /**
  * Created by mariona on 26/1/17.
  */
@@ -19,26 +21,26 @@ import com.squareup.picasso.Picasso;
 public class MovieAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private Movie[] mMovies;
+    private List<Movie> mMovies;
 
     public MovieAdapter(Context c) {
         mContext = c;
     }
 
     @Override
-    public Object getItem(int i) {
-        return mMovies[i];
+    public Movie getItem(int i) {
+        return mMovies.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return mMovies[i].getId();
+        return getItem(i).getId();
     }
 
     @Override
     public int getCount() {
         if (mMovies != null) {
-            return mMovies.length;
+            return mMovies.size();
         } else {
             return 0;
         }
@@ -54,13 +56,13 @@ public class MovieAdapter extends BaseAdapter {
         }
 
         String pictureUrl = mContext.getResources().getString(R.string.imagedb_url_root)
-                + mMovies[position].getPosterPath();
+                + getItem(position).getPosterPath();
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra("movie", mMovies[position]);
+                intent.putExtra("movie", getItem(position));
                 mContext.startActivity(intent);
             }
         });
@@ -74,7 +76,7 @@ public class MovieAdapter extends BaseAdapter {
         return imageView;
     }
 
-    public void setMoviesData(Movie[] movies) {
+    public void setMoviesData(List<Movie> movies) {
         mMovies = movies;
         notifyDataSetChanged();
     }

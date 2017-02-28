@@ -1,8 +1,14 @@
 package com.example.android.popularmovies2.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.android.popularmovies2.model.Movie;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.android.popularmovies2.data.FavoriteContract.FavoriteEntry;
 /**
@@ -15,7 +21,7 @@ public class FavoriteDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "favorite.db";
 
     // If you change the database schema, you must increment the database version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     // Constructor
     public FavoriteDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,5 +40,44 @@ public class FavoriteDbHelper extends SQLiteOpenHelper {
         // instead of dropping it, so that existing data is not deleted.
         sqLiteDatabase.execSQL(FavoriteEntry.SQL_DROP_TABLE);
         onCreate(sqLiteDatabase);
+    }
+
+    public List<Movie> getFavoriteMovies() {
+        List<Movie> movies = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(FavoriteEntry.TABLE_NAME, null, null, null, null, null, null);
+        int idPos = cursor.getColumnIndex(FavoriteEntry._ID);
+        int titlePos = cursor.getColumnIndex(FavoriteEntry.COLUMN_TITLE);
+        int posterPos = cursor.getColumnIndex(FavoriteEntry.COLUMN_POSTER);
+        int synopsysPos = cursor.getColumnIndex(FavoriteEntry.COLUMN_SYNOPSYS);
+        int userRatingPos = cursor.getColumnIndex(FavoriteEntry.COLUMN_USER_RATING);
+        int releaseDatePos = cursor.getColumnIndex(FavoriteEntry.COLUMN_RELEASE_DATE);
+
+        while (cursor.moveToNext()) {
+            Movie m = new Movie();
+            m.setId(cursor.getInt(idPos));
+            m.setOriginalTitle(cursor.getString(titlePos));
+            m.setPosterPath(cursor.getString(posterPos));
+            m.setOverview(cursor.getString(synopsysPos));
+            m.setVoteAverage(cursor.getDouble(userRatingPos));
+            m.setReleaseDate(cursor.getString(releaseDatePos));
+            m.setFavorite(true);
+            movies.add(m);
+        }
+        return movies;
+    }
+
+    public boolean checkFavorite(Movie m) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns  = {FavoriteEntry._ID};
+        String[] values = {m.getId() +  ""};
+        Cursor cursor = db.query(FavoriteEntry.TABLE_NAME,
+                columns,
+                FavoriteEntry._ID + " =?",
+                values,
+                null,
+                null,
+                null);
+        return cursor.moveToFirst();
     }
 }
