@@ -3,6 +3,7 @@ package com.example.android.popularmovies2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -29,6 +30,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import static com.example.android.popularmovies2.data.FavoriteContract.FavoriteEntry;
+
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences mPreferences;
@@ -39,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar mLoadingIndicator;
     private TextView mTvError;
-
-    private FavoriteDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mTvError = (TextView) findViewById(R.id.tv_error);
-
-        dbHelper = new FavoriteDbHelper(this);
-
         try {
             getMoviesList(mOrderOption);
         } catch (Exception e) {
@@ -69,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void getMoviesList(String order) {
         if (order.equals(getResources().getString(R.string.settings_favorites_key))) {
-            mMovieAdapter.setMoviesData(dbHelper.getFavoriteMovies());
+            Cursor cursor = getContentResolver().query(FavoriteEntry.CONTENT_URI, null, null, null, null, null);
+            mMovieAdapter.setMoviesData(FavoriteDbHelper.getMoviesFromCursor(cursor));
         } else {
             String sQuery;
             Resources resources = getResources();

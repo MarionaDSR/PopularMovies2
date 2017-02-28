@@ -42,10 +42,8 @@ public class FavoriteDbHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public List<Movie> getFavoriteMovies() {
+    public static List<Movie> getMoviesFromCursor(Cursor cursor) {
         List<Movie> movies = new ArrayList<>();
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query(FavoriteEntry.TABLE_NAME, null, null, null, null, null, null);
         int idPos = cursor.getColumnIndex(FavoriteEntry._ID);
         int titlePos = cursor.getColumnIndex(FavoriteEntry.COLUMN_TITLE);
         int posterPos = cursor.getColumnIndex(FavoriteEntry.COLUMN_POSTER);
@@ -64,6 +62,7 @@ public class FavoriteDbHelper extends SQLiteOpenHelper {
             m.setFavorite(true);
             movies.add(m);
         }
+        cursor.close();
         return movies;
     }
 

@@ -2,7 +2,6 @@ package com.example.android.popularmovies2;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,15 +53,10 @@ public class DetailActivity extends AppCompatActivity implements
 
     private DetailPresenter mPresenter;
 
-    private SQLiteDatabase mDb;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        FavoriteDbHelper dbHelper = new FavoriteDbHelper(this);
-        mDb = dbHelper.getWritableDatabase();
 
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mTvRating = (TextView) findViewById(R.id.tv_rating);
@@ -78,6 +72,7 @@ public class DetailActivity extends AppCompatActivity implements
 
         mMovie = getIntent().getParcelableExtra("movie");
         if (!mMovie.isFavorite()) {
+            FavoriteDbHelper dbHelper = new FavoriteDbHelper(this);
             mMovie.setFavorite(dbHelper.checkFavorite(mMovie));
         }
         mTvTitle.setText(mMovie.getOriginalTitle());
@@ -167,11 +162,16 @@ public class DetailActivity extends AppCompatActivity implements
             cv.put(FavoriteEntry.COLUMN_USER_RATING, mMovie.getVoteAverage());
             cv.put(FavoriteEntry.COLUMN_RELEASE_DATE, mMovie.getReleaseDate());
 
-            mDb.insert(FavoriteEntry.TABLE_NAME, null, cv);
-            Toast.makeText(this, "Saved favorite for " + mMovie.getOriginalTitle(), Toast.LENGTH_LONG).show();
+            //mDb.insert(FavoriteEntry.TABLE_NAME, null, cv);
+            Uri uri = getContentResolver().insert(FavoriteEntry.CONTENT_URI, cv);
+            if (uri != null) {
+                Toast.makeText(this, "Saved favorite for " + mMovie.getOriginalTitle(), Toast.LENGTH_LONG).show();
+            }
         } else {
             mIvFavorite.setImageResource(R.drawable.ic_favorite_false);
-            mDb.delete(FavoriteEntry.TABLE_NAME, String.format(FavoriteEntry.SQL_BY_ID, mMovie.getId()), null);
+            //mDb.delete(FavoriteEntry.TABLE_NAME, String.format(FavoriteEntry.SQL_BY_ID, mMovie.getId()), null);
+            Uri deleteUri = FavoriteEntry.CONTENT_URI.buildUpon().appendPath(mMovie.getId() + "").build();
+            getContentResolver().delete(deleteUri, null, null);
             Toast.makeText(this, "Unsaved favorite for " + mMovie.getOriginalTitle(), Toast.LENGTH_LONG).show();
         }
     }
