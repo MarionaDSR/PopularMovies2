@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -174,5 +175,13 @@ public class DetailActivity extends AppCompatActivity implements
             getContentResolver().delete(deleteUri, null, null);
             Toast.makeText(this, "Unsaved favorite for " + mMovie.getOriginalTitle(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void showFullContent(View v) {
+        TextView tv = (TextView) v;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(tv.getText());
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

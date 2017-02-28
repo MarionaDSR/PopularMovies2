@@ -8,6 +8,9 @@
         android:id="@+id/tv_review_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLines="@integer/review_max_size"
+        android:ellipsize="end"
+        android:onClick="showFullContent"
         style="@style/ReviewContent"/>
 
     <TextView
@@ -15,4 +18,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/ReviewAuthor"/>
+
 </LinearLayout>
