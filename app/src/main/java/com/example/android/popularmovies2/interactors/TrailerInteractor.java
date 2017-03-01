@@ -23,7 +23,7 @@ import java.util.List;
 
 public class TrailerInteractor {
 
-    private Callback mCallback;
+    private final Callback mCallback;
 
     public TrailerInteractor(Callback callback) {
         mCallback = callback;

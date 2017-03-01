@@ -47,7 +47,7 @@ public class FavoriteDbHelper extends SQLiteOpenHelper {
         int idPos = cursor.getColumnIndex(FavoriteEntry._ID);
         int titlePos = cursor.getColumnIndex(FavoriteEntry.COLUMN_TITLE);
         int posterPos = cursor.getColumnIndex(FavoriteEntry.COLUMN_POSTER);
-        int synopsysPos = cursor.getColumnIndex(FavoriteEntry.COLUMN_SYNOPSYS);
+        int synopsisPos = cursor.getColumnIndex(FavoriteEntry.COLUMN_SYNOPSIS);
         int userRatingPos = cursor.getColumnIndex(FavoriteEntry.COLUMN_USER_RATING);
         int releaseDatePos = cursor.getColumnIndex(FavoriteEntry.COLUMN_RELEASE_DATE);
 
@@ -56,7 +56,7 @@ public class FavoriteDbHelper extends SQLiteOpenHelper {
             m.setId(cursor.getInt(idPos));
             m.setOriginalTitle(cursor.getString(titlePos));
             m.setPosterPath(cursor.getString(posterPos));
-            m.setOverview(cursor.getString(synopsysPos));
+            m.setOverview(cursor.getString(synopsisPos));
             m.setVoteAverage(cursor.getDouble(userRatingPos));
             m.setReleaseDate(cursor.getString(releaseDatePos));
             m.setFavorite(true);
@@ -77,6 +77,8 @@ public class FavoriteDbHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 null);
-        return cursor.moveToFirst();
+        boolean isFavorite = cursor.moveToFirst();
+        cursor.close();
+        return isFavorite;
     }
 }

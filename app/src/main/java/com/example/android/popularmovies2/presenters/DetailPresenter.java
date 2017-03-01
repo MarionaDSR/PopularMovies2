@@ -17,10 +17,10 @@ import java.util.List;
 
 public class DetailPresenter implements TrailerInteractor.Callback, ReviewInteractor.Callback {
 
-    private DetailView mView;
-    private Movie mMovie;
-    private TrailerInteractor mTrailerInteractor;
-    private ReviewInteractor mReviewInteractor;
+    private final DetailView mView;
+    private final Movie mMovie;
+    private final TrailerInteractor mTrailerInteractor;
+    private final ReviewInteractor mReviewInteractor;
 
     public DetailPresenter(DetailView view, Movie movie) {
         mView = view;

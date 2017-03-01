@@ -38,7 +38,6 @@ public class Trailer implements Parcelable {
 
     private String id;
     private String key;
-    private String site;
     private String name;
 
     public Trailer() {
@@ -61,14 +60,6 @@ public class Trailer implements Parcelable {
         this.key = key;
     }
 
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
-    }
-
     public String getName() {
         return name;
     }
@@ -86,7 +77,6 @@ public class Trailer implements Parcelable {
     public void writeToParcel(Parcel out, int i) {
         out.writeString(id);
         out.writeString(key);
-        out.writeString(site);
         out.writeString(name);
     }
 
@@ -104,11 +94,10 @@ public class Trailer implements Parcelable {
     private Trailer(Parcel in) {
         id = in.readString();
         key = in.readString();
-        site = in.readString();
         name = in.readString();
     }
 
     public String getUrl() {
-        return "https://www.youtube.com/watch?v=" + getKey(); // TODO extract url, check is youtube
+        return "https://www.youtube.com/watch?v=" + getKey();
     }
 }

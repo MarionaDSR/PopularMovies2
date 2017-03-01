@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ReviewInteractor {
 
-    private Callback mCallback;
+    private final Callback mCallback;
 
     public ReviewInteractor(Callback callback) {
         mCallback = callback;

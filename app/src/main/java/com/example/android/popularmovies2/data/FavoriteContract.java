@@ -20,7 +20,7 @@ public class FavoriteContract {
         public static final String TABLE_NAME = "favorite";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_POSTER = "poster";
-        public static final String COLUMN_SYNOPSYS = "synopsys";
+        public static final String COLUMN_SYNOPSIS = "synopsis";
         public static final String COLUMN_USER_RATING = "userRating";
         public static final String COLUMN_RELEASE_DATE = "releaseDate";
 
@@ -28,13 +28,11 @@ public class FavoriteContract {
                 _ID + " INTEGER NOT NULL," +
                 COLUMN_TITLE + " TEXT NOT NULL," +
                 COLUMN_POSTER + " TEXT NOT NULL," +
-                COLUMN_SYNOPSYS + " TEXT NOT NULL," +
+                COLUMN_SYNOPSIS + " TEXT NOT NULL," +
                 COLUMN_USER_RATING + " NUMBER NOT NULL," +
                 COLUMN_RELEASE_DATE + " TEXT NOT NULL" +
                 "); ";
 
         public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-
-        public static final String SQL_BY_ID = _ID + " = %s";
     }
 }

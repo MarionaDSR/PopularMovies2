@@ -167,7 +167,7 @@ public class DetailActivity extends AppCompatActivity implements
             cv.put(FavoriteEntry._ID, mMovie.getId());
             cv.put(FavoriteEntry.COLUMN_TITLE, mMovie.getOriginalTitle());
             cv.put(FavoriteEntry.COLUMN_POSTER, mMovie.getPosterPath());
-            cv.put(FavoriteEntry.COLUMN_SYNOPSYS, mMovie.getOverview());
+            cv.put(FavoriteEntry.COLUMN_SYNOPSIS, mMovie.getOverview());
             cv.put(FavoriteEntry.COLUMN_USER_RATING, mMovie.getVoteAverage());
             cv.put(FavoriteEntry.COLUMN_RELEASE_DATE, mMovie.getReleaseDate());
 

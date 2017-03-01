@@ -1,6 +1,5 @@
 package com.example.android.popularmovies2.utils;
 
-import com.example.android.popularmovies2.model.Movie;
 import com.example.android.popularmovies2.model.Trailer;
 
 import org.json.JSONArray;
@@ -19,7 +18,6 @@ public class TrailerJsonUtils {
 
     private static final String LBL_ID = "id";
     private static final String LBL_KEY = "key";
-    private static final String LBL_SITE = "site";
     private static final String LBL_NAME = "name";
 
     public static List<Trailer> getTrailers(JSONObject jsonData) throws JSONException{
@@ -31,7 +29,6 @@ public class TrailerJsonUtils {
             Trailer t = new Trailer();
             t.setId(jsonTrailer.getString(LBL_ID));
             t.setKey(jsonTrailer.getString(LBL_KEY));
-            t.setSite(jsonTrailer.getString(LBL_SITE));
             t.setName(jsonTrailer.getString(LBL_NAME));
             trailers.add(t);
         }
