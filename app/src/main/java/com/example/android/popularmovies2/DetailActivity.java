@@ -43,10 +43,13 @@ public class DetailActivity extends AppCompatActivity implements
     private TextView mTvDate;
     private TextView mTvOverview;
     private ImageView mIvPoster;
+    private TextView mTvTrailersTitle;
     private RecyclerView mRvTrailers;
+    private TextView mTvReviewsTitle;
     private RecyclerView mRvReviews;
 
-    private ProgressBar mLoadingIndicator;
+    private ProgressBar mPvTrailers;
+    private ProgressBar mPvReviews;
     private TextView mTvError;
 
     private TrailerAdapter mTrailerAdapter;
@@ -65,10 +68,13 @@ public class DetailActivity extends AppCompatActivity implements
         mTvDate = (TextView) findViewById(R.id.tv_date);
         mTvOverview = (TextView) findViewById(R.id.tv_overview);
         mIvPoster = (ImageView) findViewById(R.id.iv_poster);
+        mTvTrailersTitle = (TextView) findViewById(R.id.tv_trailers_title);
         mRvTrailers = (RecyclerView) findViewById(R.id.rv_trailers);
+        mTvReviewsTitle = (TextView) findViewById(R.id.tv_reviews_title);
         mRvReviews = (RecyclerView) findViewById(R.id.rv_reviews);
 
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mPvTrailers = (ProgressBar) findViewById(R.id.pb_trailers);
+        mPvReviews = (ProgressBar) findViewById(R.id.pb_reviews);
         mTvError = (TextView) findViewById(R.id.tv_error);
 
         mMovie = getIntent().getParcelableExtra("movie");
@@ -127,14 +133,16 @@ public class DetailActivity extends AppCompatActivity implements
 
     @Override
     public void setTrailers(List<Trailer> trailers) {
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mPvTrailers.setVisibility(View.INVISIBLE);
+        mTvTrailersTitle.setText(getString(R.string.detail_trailers_title) + " (" + trailers.size() + ")");
         mTrailerAdapter.setTrailers(trailers);
         mTrailerAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setReviews(List<Review> reviews) {
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mPvReviews.setVisibility(View.INVISIBLE);
+        mTvReviewsTitle.setText(getString(R.string.detail_reviews_title) + " (" + reviews.size() + ")");
         mReviewAdapter.setReviews(reviews);
         mReviewAdapter.notifyDataSetChanged();
     }

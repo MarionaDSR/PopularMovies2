@@ -72,19 +72,39 @@
                 style="@style/Overview"/>
 
             <TextView
+                android:id="@+id/tv_trailers_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TRAILERS"/>
+                android:text="@string/detail_trailers_title"
+                style="@style/Subtitle"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_trailers"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
             <ProgressBar
-                android:id="@+id/pb_loading_indicator"
+                android:id="@+id/pb_trailers"
                 android:layout_height="@dimen/indicator_size"
                 android:layout_width="@dimen/indicator_size"
                 android:layout_gravity="center"
                 android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/tv_reviews_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detail_reviews_title"
+                style="@style/Subtitle"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <ProgressBar
+                android:id="@+id/pb_reviews"
+                android:layout_height="@dimen/indicator_size"
+                android:layout_width="@dimen/indicator_size"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+
             <TextView
                 android:id="@+id/tv_error"
                 android:layout_width="match_parent"
@@ -92,15 +112,6 @@
                 android:visibility="invisible"
                 style="@style/Error"
                 />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="REVIEWS"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_reviews"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </ScrollView>
